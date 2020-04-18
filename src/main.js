@@ -7,8 +7,8 @@ const config = {
     pixelArt: true,
     roundPixels: true,
     parent: 'content',
-    width: 800,
-    height: 600,
+    width: 1280,
+    height: 800,
     // background color of the game
     backgroundColor: 0x6dc4f2,
     physics: {
