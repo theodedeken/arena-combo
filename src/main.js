@@ -7,14 +7,14 @@ const config = {
     pixelArt: true,
     roundPixels: true,
     parent: 'content',
-    width: 500,
-    height: 400,
+    width: 800,
+    height: 600,
     // background color of the game
     backgroundColor: 0x6dc4f2,
     physics: {
         default: 'arcade',
         arcade: {
-            debug: false
+            debug: true
         }
     },
     scene: [
