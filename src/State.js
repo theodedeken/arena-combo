@@ -1,13 +1,13 @@
 class _State {
     constructor() {
         this.combo = 0;
-        this.gold = 100;
+        this.gold = 10000000;
         this.cooldown = 180;
         this.maxCooldown = 180;
         this.state = 'boot';
         this.multiplier = 10;
         this.health = 1000;
-
+        this.bounce = 0.9;
         this.arenaState = [];
         this.upgrades = {
             gladiator: 1,

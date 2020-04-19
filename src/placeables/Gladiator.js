@@ -2,6 +2,8 @@ import {
     gladiatorpricing
 } from '../functions';
 
+import STATE from '../State'
+
 export default class Gladiator extends Phaser.GameObjects.Image {
     constructor(x, y, scene, arena) {
         super(scene, x, y, 'gladiator');
@@ -15,8 +17,8 @@ export default class Gladiator extends Phaser.GameObjects.Image {
 
     initPhysics() {
         this.arena.addGladiator(this);
-       
-        this.body.setBounce(0.9, 0.9);
+
+        this.body.setBounce(STATE.bounce, STATE.bounce);
         this.body.setDrag(0.98, 0.98);
         this.body.useDamping = true;
         this.body.setCircle(16, 0, 0);

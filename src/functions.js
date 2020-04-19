@@ -19,6 +19,13 @@ export function healthpricing(level) {
     return raw;
 }
 
+export function bouncepricing(level) {
+    let raw = exponential(750, level, 3);
+    raw = Math.round(raw);
+    raw -= raw % 10;
+    return raw;
+}
+
 function exponential(s, x, e) {
     for (let i = 1; i < x; i++) {
         s *= e;

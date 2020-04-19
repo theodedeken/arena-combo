@@ -5,7 +5,7 @@ export default class ItemButton extends Button {
         let but = scene.add.image(x, y, 'item_button');
         let hov = scene.add.image(x, y, 'item_button_hover');
         let dis = scene.add.image(x, y, 'item_button_disabled');
-        
+
         let text = scene.add.text(x, y, 'Cost', {
             fontFamily: 'Arial',
             fixedWidth: width,
@@ -15,9 +15,9 @@ export default class ItemButton extends Button {
         });
         text.originX = 0.5;
         text.originY = 0.5;
-        
+
         super(x, y, width, height, but, hov, dis, text, callback, scene);
-        
+
         this.pricing = pricing;
         this.tooltip = tooltip;
         this.tooltipBox = this.scene.add.rectangle(640, 400, 700, 50, 0x66ffffff);
@@ -61,5 +61,10 @@ export default class ItemButton extends Button {
         this.tooltipText.visible = this.hoverState;
         this.tooltipBox.visible = this.hoverState;
         this.icon.visible = true;
+    }
+
+    setPricing(pricing) {
+        this.pricing = pricing;
+        this.text.text = pricing;
     }
 }

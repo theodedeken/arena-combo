@@ -30,7 +30,7 @@ class BootScene extends Phaser.Scene {
         this.load.image('cooldown_border', 'assets/sprites/cooldown_border.svg');
         this.load.image('strength', 'assets/sprites/strength.svg');
         this.load.image('health', 'assets/sprites/health.svg');
-        this.load.image('bounce', 'assets/sprites/bounce.svg');
+        this.load.image('bounce', 'assets/sprites/bounciness.svg');
         this.load.image('oil', 'assets/sprites/oil.svg');
         this.load.image('spinner', 'assets/sprites/spinner.svg');
         // sounds

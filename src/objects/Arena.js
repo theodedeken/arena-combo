@@ -26,7 +26,7 @@ export default class Arena {
     gladiatorOnGladiator(gladiator1, gladiator2) {
         STATE.incCombo();
         STATE.resetCooldown();
-        
+
         gladiator1.body.setAngularVelocity(Phaser.Math.RND.between(-500, 500));
         gladiator2.body.setAngularVelocity(Phaser.Math.RND.between(-500, 500));
 
@@ -95,9 +95,9 @@ export default class Arena {
                     u.add(v);
                     u.normalize();
                     u.scale(2 * element.body.velocity.dot(u));
-                        
+
                     element.body.velocity.subtract(u);
-                    element.body.velocity.scale(0.85);
+                    element.body.velocity.scale(STATE.bounce);
                     this.count();
                 }
             });
