@@ -9,7 +9,7 @@ import {
 import Placeable from '../placeables/Placeable';
 import Arena from '../objects/Arena';
 import {
-    gladiatorpricing, multiplierpricing
+    gladiatorpricing, multiplierpricing, healthpricing
 } from '../functions';
 
 import UICorner from '../objects/UICorner';
@@ -60,12 +60,16 @@ export default class UpgradeScene extends Phaser.Scene {
         this.buttons.push(this.placeGladiator);
 
         this.multiplierCost = multiplierpricing(STATE.upgrades.strength);
-        this.upgradeMult = new UpgradeableItemButton(400, 300, 128, 128, 'strength', 'Doubles the Combo multiplier', this.multiplierCost, 10, this.handleUpgradeMult, this);
+        this.upgradeMult = new UpgradeableItemButton(880, 300, 128, 128, 'strength', 'Doubles the Combo multiplier', this.multiplierCost, 10, this.handleUpgradeMult, this);
         this.buttons.push(this.upgradeMult);
+
+        this.healthCost = healthpricing(STATE.upgrades.health);
+        this.upgradeHealth = new UpgradeableItemButton(400, 300, 128, 128, 'health', 'Increases the health of the gladiators', this.healthCost, 10, this.handleUpgradeHealth, this);
+        this.buttons.push(this.upgradeHealth)
 
         /*
         this.upgrade2 = new UpgradeableItemButton(640, 200, 100, 100, null, null, 'test', gladiatorpricing, 10, 'bounce', () => console.log('upgrade 2'), this);
-        this.upgrade3 = new UpgradeableItemButton(880, 200, 100, 100, null, null, 'test', gladiatorpricing, 10, 'health', () => console.log('upgrade 3'), this);
+        this.upgrade3 = new UpgradeableItemButton(400, 200, 100, 100, null, null, 'test', gladiatorpricing, 10, 'health', () => console.log('upgrade 3'), this);
         this.buttons.push(this.upgrade2);
         this.buttons.push(this.upgrade3);
 
@@ -97,9 +101,21 @@ export default class UpgradeScene extends Phaser.Scene {
             }
             this.upgradeMult.text.text = this.multiplierCost
 
+            this.healthCost = healthpricing(STATE.upgrades.health);
+            if (STATE.upgrades.health === this.upgradeHealth.maxlevel || this.healthCost > STATE.gold) {
+                this.upgradeHealth.disable()
+            }
+            if (STATE.upgrades.health === this.upgradeHealth.maxlevel) {
+                this.upgradeHealth.levelText.text = 'MAX';
+            }
+            else {
+                this.upgradeHealth.levelText.text = 'Level ' + STATE.upgrades.health;
+            }
+            this.upgradeHealth.text.text = this.healthCost
+
             this.mainBtn.text.text = 'Arena';
             this.upgradeMult.show();
-            // this.scene.upgrade2.show();
+            this.upgradeHealth.show();
             // this.scene.upgrade3.show();
             this.placeGladiator.show();
             // this.scene.place2.show();
@@ -107,7 +123,7 @@ export default class UpgradeScene extends Phaser.Scene {
         } else {
             this.mainBtn.text.text = 'Cancel';
             this.upgradeMult.hide();
-            // this.scene.upgrade2.hide();
+            this.upgradeHealth.hide();
             // this.scene.upgrade3.hide();
             this.placeGladiator.hide();
             // this.scene.place2.hide();
@@ -124,6 +140,14 @@ export default class UpgradeScene extends Phaser.Scene {
     handleUpgradeMult(cursor) {
         STATE.upgrades.strength += 1;
         STATE.multiplier *= 2;
+        STATE.removeGold(this.pricing);
+        this.scene.uicorner.setGold(STATE.gold)
+        this.scene.updateButtons();
+    }
+
+    handleUpgradeHealth(cursor) {
+        STATE.upgrades.health += 1;
+        STATE.health *= 1.5;
         STATE.removeGold(this.pricing);
         this.scene.uicorner.setGold(STATE.gold)
         this.scene.updateButtons();

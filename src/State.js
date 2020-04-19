@@ -6,6 +6,8 @@ class _State {
         this.maxCooldown = 180;
         this.state = 'boot';
         this.multiplier = 10;
+        this.health = 1000;
+
         this.arenaState = [];
         this.upgrades = {
             gladiator: 1,
@@ -48,6 +50,6 @@ class _State {
         this.state = state;
     }
 }
-  
+
 const STATE = new _State();
 export default STATE;

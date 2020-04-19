@@ -6,7 +6,14 @@ export function gladiatorpricing(level) {
 }
 
 export function multiplierpricing(level) {
-    let raw = exponential(500, level, 1.6);
+    let raw = exponential(1000, level, 1.6);
+    raw = Math.round(raw);
+    raw -= raw % 10;
+    return raw;
+}
+
+export function healthpricing(level) {
+    let raw = exponential(500, level, 1.4);
     raw = Math.round(raw);
     raw -= raw % 10;
     return raw;
