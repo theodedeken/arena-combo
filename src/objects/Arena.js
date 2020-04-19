@@ -16,30 +16,39 @@ export default class Arena {
         this.f1 = new Phaser.Math.Vector2(x - this.c, y);
         this.f2 = new Phaser.Math.Vector2(x + this.c, y);
         this.gladiators = this.scene.physics.add.group();
-        this.scene.physics.add.collider(this.gladiators, this.gladiators, this.count);
+        this.scene.physics.add.collider(this.gladiators, this.gladiators, this.gladiatorOnGladiator);
         this.waiting = true;
-        this.counter = 0;
+    }
+
+    gladiatorOnGladiator(gladiator1, gladiator2) {
+        STATE.incCombo();
+        STATE.resetCooldown();
+        
+        gladiator1.body.setAngularVelocity(Phaser.Math.RND.between(-500, 500));
+        gladiator2.body.setAngularVelocity(Phaser.Math.RND.between(-500, 500));
     }
 
     count() {
         STATE.incCombo();
+        STATE.resetCooldown();
     }
 
-    addGladiator(x, y, radius) {
-        let gladiator = this.scene.add.circle(x, y, radius, 0x931f9c);
-        this.scene.physics.add.existing(gladiator, 0);
+    add(generator, args) {
+        return generator(args, this.scene, this);
+    }
+
+    addGladiator(gladiator) {
         this.gladiators.add(gladiator);
-       
-        gladiator.body.setBounce(1.01, 1.01);
-        gladiator.body.setDrag(0.98, 0.98);
-        gladiator.body.useDamping = true;
-        gladiator.body.setCircle(radius, 0, 0);
-        gladiator.body.setMass(radius);
-        return gladiator;
     }
 
     setVictim(victim) {
         this.victim = victim;
+    }
+
+    reset() {
+        this.waiting = true;
+        this.gladiators.children.each(el => el.destroy());
+        this.gladiators.clear();
     }
 
     update() {
@@ -48,7 +57,14 @@ export default class Arena {
             if (dist < this.boundsWidth) {
                 this.waiting = false;
             }
+        } else if (STATE.cooldown === 0) {
+            STATE.addGold(STATE.combo * STATE.multiplier);
+            STATE.resetCooldown();
+            STATE.resetCombo();
+            STATE.state = 'play';
+            this.scene.resetArena();
         } else {
+            STATE.decCooldown();
             this.gladiators.children.each(element => {
                 let curPos = element.body.center;
                 let nextPos = element.body.center.clone().add(element.body.velocity.clone().scale(1 / 60));
@@ -64,9 +80,10 @@ export default class Arena {
                     u.add(v);
                     u.normalize();
                     u.scale(2 * element.body.velocity.dot(u));
-                    
+                        
                     element.body.velocity.subtract(u);
                     element.body.velocity.scale(0.99);
+                    this.count();
                 }
             });
         }

@@ -1,5 +1,8 @@
 
 import Arena from '../objects/Arena';
+import {
+    gladiatorGenerator
+} from '../placeables/Gladiator';
 import STATE from '../State';
 import Button from '../ui/Button';
 
@@ -9,27 +12,36 @@ class ArenaScene extends Phaser.Scene {
             key: 'ArenaScene'
         });
     }
-    preload() {
-        this.load.image('circle', 'assets/circle.svg');
-    }
 
     create() {
         this.arena = new Arena(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 800, 500, 10, this);
-        
-        this.victim = this.arena.addGladiator(this.sys.game.config.width / 2, 120, 10);
-        this.arena.setVictim(this.victim);
         this.pointer = this.add.rectangle(this.sys.game.config.width / 2, 120, 10, 40, 0x000000);
         this.pointer.setOrigin(0.5, 0);
+
+        this.cooldown = this.add.rectangle(1000, 715, 250, 25, 0x0000aa);
+        this.cooldown.setOrigin(0, 0.5);
+        this.cooldown.scaleX = 0;
         
-        for (let i = 0; i < 5; i++) {
-            let x = Phaser.Math.RND.between(440, 840);
-            let y = Phaser.Math.RND.between(250, 550);
-            this.arena.addGladiator(x, y, 10);
-        }
+        this.fillArena();
 
         this.input.on('pointermove', this.handleMouseMove, this);
         this.input.on('pointerdown', this.handleMouseClick, this);
         this.input.keyboard.on('keydown_SPACE', this.handleSpace, this);
+
+        this.combo = this.add.text(1000, 650, 'Combo', {
+            fontFamily: 'Arial',
+            fixedWidth: 250,
+            fontSize: '30pt',
+            color: '#000000',
+            align: 'center'
+        });
+
+        this.gold = this.add.text(1000, 750, 'Gold', {
+            fontFamily: 'Arial',
+            fontSize: '20pt',
+            color: '#000000',
+            align: 'center'
+        });
 
         this.initButtons();
     }
@@ -74,7 +86,8 @@ class ArenaScene extends Phaser.Scene {
                 let angle = this.pointer.rotation - Math.PI / 2;
                 let dy = Math.sin(angle);
                 let dx = Math.cos(angle);
-                this.victim.body.setVelocity(-5000 * dx, -5000 * dy);
+                this.victim.body.setVelocity(-3000 * dx, -3000 * dy);
+                this.victim.body.setAngularVelocity(Phaser.Math.RND.between(-1000, 1000));
                 STATE.setState('combo');
             } else if (STATE.state === 'place') {
                 if (cursor.button === 0) {
@@ -104,7 +117,27 @@ class ArenaScene extends Phaser.Scene {
     }
 
     update() {
-        this.arena.update();
+        this.gold.text = STATE.gold;
+        if (STATE.state === 'combo') {
+            this.combo.text = STATE.combo + 'x';
+            this.arena.update();
+            let ratio = STATE.cooldown / STATE.maxCooldown;
+            this.cooldown.scaleX = ratio;
+        }
+    }
+
+    fillArena() {
+        this.victim = this.arena.add(gladiatorGenerator, [this.sys.game.config.width / 2, 120, 16]);
+        this.arena.setVictim(this.victim);
+        STATE.arenaState.forEach(el => {
+            this.arena.add(el[0], el[1]);
+        });
+    }
+
+    resetArena() {
+        this.arena.reset();
+        this.fillArena();
+        this.cooldown.scaleX = 0;
     }
 }
 
