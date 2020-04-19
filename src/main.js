@@ -1,5 +1,6 @@
 import 'phaser';
 import ArenaScene from './scenes/ArenaScene';
+import UpgradeScene from './scenes/UpgradeScene';
 
 const config = {
     // For more settings see <https://github.com/photonstorm/phaser/blob/master/src/boot/Config.js>
@@ -18,7 +19,8 @@ const config = {
         }
     },
     scene: [
-        ArenaScene
+        ArenaScene,
+        UpgradeScene
     ]
 };
 

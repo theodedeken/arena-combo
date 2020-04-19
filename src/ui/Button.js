@@ -1,5 +1,5 @@
 export default class Button {
-    constructor(x, y, width, height, skin, hover, disabled, text, callback) {
+    constructor(x, y, width, height, skin, hover, disabled, text, callback, scene) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -12,6 +12,7 @@ export default class Button {
         this.hover.visible = this.hoverState;
         this.enabled = true;
         this.callback = callback;
+        this.scene = scene;
     }
 
     disable() {
