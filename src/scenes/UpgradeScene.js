@@ -1,6 +1,7 @@
 import Button from '../ui/Button';
 import PlaceableItemButton from '../ui/PlaceableItemButton';
 import UpgradeableItemButton from '../ui/UpgradeableItemButton';
+import ItemButton from '../ui/ItemButton';
 import STATE from '../State';
 import {
     gladiatorGenerator
@@ -22,10 +23,7 @@ export default class UpgradeScene extends Phaser.Scene {
     }
 
     create() {
-        this.arena = new Arena(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 800, 500, 10, this, true);
-        this.stands = this.add.ellipse(640, 400, 800 + 200, 500 + 200, 0xedddaf);
-        this.emperor = this.add.rectangle(640, 400 - 800 / 2 + 100, 200, 75, 0x7056a3);
-        this.ground = this.add.ellipse(640, 400, 800, 500, 0xab7f07);
+        this.arena = new Arena(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 640, 400, 10, this, true);
 
         this.fillArena();
 
@@ -36,12 +34,12 @@ export default class UpgradeScene extends Phaser.Scene {
     }
     initButtons() {
         this.buttons = [];
-        let upgx = 150;
+        let upgx = 125;
         let upgy = 750;
         let upgw = 200;
         let upgh = 50;
-        let but = this.add.rectangle(upgx, upgy, upgw, upgh, 0x666666);
-        let hov = this.add.rectangle(upgx, upgy, upgw, upgh, 0x660000);
+        let but = this.add.image(upgx, upgy, 'button');
+        let hov = this.add.image(upgx, upgy, 'button_hover');
         let text = this.add.text(upgx - upgw / 2, upgy - upgh / 4, 'Arena', {
             fontFamily: 'Arial',
             fixedWidth: 200,
@@ -53,6 +51,11 @@ export default class UpgradeScene extends Phaser.Scene {
         this.mainBtn = new Button(upgx, upgy, upgw, upgh, but, hov, {}, text, this.handleButton, this);
         this.buttons.push(this.mainBtn);
 
+        this.gladiatorCost = gladiatorpricing(STATE.upgrades.gladiator);
+        this.placeGladiator = new ItemButton(400, 500, 128, 128, 'gladiator', 'TODO describe gladiator', this.gladiatorCost, this.handlePlaceGladiator, this);
+        this.buttons.push(this.placeGladiator);
+
+        /*
         this.upgrade1 = new UpgradeableItemButton(400, 200, 100, 100, null, null, 'test', gladiatorpricing, 10, 'swing', () => console.log('upgrade 1'), this);
         this.upgrade2 = new UpgradeableItemButton(640, 200, 100, 100, null, null, 'test', gladiatorpricing, 10, 'bounce', () => console.log('upgrade 2'), this);
         this.upgrade3 = new UpgradeableItemButton(880, 200, 100, 100, null, null, 'test', gladiatorpricing, 10, 'health', () => console.log('upgrade 3'), this);
@@ -60,24 +63,44 @@ export default class UpgradeScene extends Phaser.Scene {
         this.buttons.push(this.upgrade2);
         this.buttons.push(this.upgrade3);
 
-        this.place1 = new PlaceableItemButton(400, 500, 100, 100, 'gladiator', null, 'test', gladiatorpricing, gladiatorGenerator, 'gladiator', this.handlePlaceGladiator, this);
         this.place2 = new PlaceableItemButton(640, 500, 100, 100, null, null, 'test', gladiatorpricing, null, 'oil', () => console.log('place 2'), this);
         this.place3 = new PlaceableItemButton(880, 500, 100, 100, null, null, 'test', gladiatorpricing, null, 'pillar', () => console.log('place 3'), this);
-        this.buttons.push(this.place1);
         this.buttons.push(this.place2);
-        this.buttons.push(this.place3);
+        this.buttons.push(this.place3); */
+
+        this.updateButtons();
+    }
+
+    updateButtons() {
+        if (STATE.state === 'upgrade') {
+            this.gladiatorCost = gladiatorpricing(STATE.upgrades.gladiator);
+            if (this.gladiatorCost > STATE.gold) {
+                this.placeGladiator.disable();
+            }
+            this.placeGladiator.text.text = this.gladiatorCost;
+
+            this.mainBtn.text.text = 'Arena';
+            // this.scene.upgrade1.show();
+            // this.scene.upgrade2.show();
+            // this.scene.upgrade3.show();
+            this.placeGladiator.show();
+            // this.scene.place2.show();
+            // this.scene.place3.show();
+        } else {
+            this.mainBtn.text.text = 'Cancel';
+            // this.scene.upgrade1.hide();
+            // this.scene.upgrade2.hide();
+            // this.scene.upgrade3.hide();
+            this.placeGladiator.hide();
+            // this.scene.place2.hide();
+            // this.scene.place3.hide();
+        }
     }
 
     handlePlaceGladiator(cursor) {
-        this.scene.placing = new Placeable(cursor.x, cursor.y, this.generator, this.scene, this.scene.arena);
+        this.scene.placing = new Placeable(cursor.x, cursor.y, gladiatorGenerator, this.scene, this.scene.arena);
         STATE.setState('place');
-        this.scene.mainBtn.text.text = 'Cancel';
-        this.scene.upgrade1.hide();
-        this.scene.upgrade2.hide();
-        this.scene.upgrade3.hide();
-        this.scene.place1.hide();
-        this.scene.place2.hide();
-        this.scene.place3.hide();
+        this.scene.updateButtons();
     }
 
     handleButton() {
@@ -117,12 +140,7 @@ export default class UpgradeScene extends Phaser.Scene {
     }
 
     justPlaced() {
-        this.upgrade1.update();
-        this.upgrade2.update();
-        this.upgrade3.update();
-        this.place1.update();
-        this.place2.update();
-        this.place3.update();
+        this.updateButtons();
         this.arena.reset();
         this.fillArena();
     }

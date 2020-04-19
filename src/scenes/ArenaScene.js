@@ -5,6 +5,7 @@ import {
 } from '../placeables/Gladiator';
 import STATE from '../State';
 import Button from '../ui/Button';
+import UICorner from '../objects/UICorner';
 
 class ArenaScene extends Phaser.Scene {
     constructor(test) {
@@ -14,15 +15,11 @@ class ArenaScene extends Phaser.Scene {
     }
 
     create() {
-        this.arena = new Arena(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 800, 500, 10, this, false);
+        this.arena = new Arena(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 640, 400, 10, this, false);
         this.pointer = this.add.image(this.sys.game.config.width / 2, 120, 'pointer');
         // this.pointer = this.add.rectangle(this.sys.game.config.width / 2, 120, 10, 40, 0x000000);
         this.pointer.setOrigin(0.5, 0);
         this.pointer.scale = 0.5;
-
-        this.cooldown = this.add.rectangle(1000, 715, 250, 25, 0x0000aa);
-        this.cooldown.setOrigin(0, 0.5);
-        this.cooldown.scaleX = 0;
         
         this.fillArena();
 
@@ -30,31 +27,17 @@ class ArenaScene extends Phaser.Scene {
         this.input.on('pointerdown', this.handleMouseClick, this);
         this.input.keyboard.on('keydown_SPACE', this.handleSpace, this);
 
-        this.combo = this.add.text(1000, 650, 'Combo', {
-            fontFamily: 'Arial',
-            fixedWidth: 250,
-            fontSize: '30pt',
-            color: '#000000',
-            align: 'center'
-        });
-
-        this.gold = this.add.text(1000, 750, 'Gold', {
-            fontFamily: 'Arial',
-            fontSize: '20pt',
-            color: '#000000',
-            align: 'center'
-        });
-
         this.initButtons();
+        this.uicorner = new UICorner(this, STATE.gold);
     }
 
     initButtons() {
-        let upgx = 150;
+        let upgx = 125;
         let upgy = 750;
         let upgw = 200;
         let upgh = 50;
-        let but = this.add.rectangle(upgx, upgy, upgw, upgh, 0x666666);
-        let hov = this.add.rectangle(upgx, upgy, upgw, upgh, 0x660000);
+        let but = this.add.image(upgx, upgy, 'button');
+        let hov = this.add.image(upgx, upgy, 'button_hover');
         let text = this.add.text(upgx - upgw / 2, upgy - upgh / 4, 'Upgrade', {
             fontFamily: 'Arial',
             fixedWidth: 200,
@@ -119,12 +102,12 @@ class ArenaScene extends Phaser.Scene {
     }
 
     update() {
-        this.gold.text = STATE.gold;
+        this.uicorner.setGold(STATE.gold);
         if (STATE.state === 'combo') {
-            this.combo.text = STATE.combo + 'x';
+            this.uicorner.setCombo(STATE.combo);
             this.arena.update();
             let ratio = STATE.cooldown / STATE.maxCooldown;
-            this.cooldown.scaleX = ratio;
+            this.uicorner.setCooldown(ratio);
         }
     }
 
@@ -139,7 +122,6 @@ class ArenaScene extends Phaser.Scene {
     resetArena() {
         this.arena.reset();
         this.fillArena();
-        this.cooldown.scaleX = 0;
     }
 }
 

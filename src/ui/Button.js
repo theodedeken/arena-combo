@@ -35,11 +35,16 @@ export default class Button {
 
     disable() {
         this.enabled = false;
+        this.hover.visible = false;
+        this.hoverState = false;
+        this.skin.visible = false;
         this.disabled.visible = true;
     }
 
     enable() {
         this.enabled = true;
+        this.hover.visible = true;
+        this.skin.visible = true;
         this.disabled.visible = false;
     }
 

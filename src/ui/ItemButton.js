@@ -1,11 +1,11 @@
 import Button from './Button';
-import STATE from '../State';
 
 export default class ItemButton extends Button {
-    constructor(x, y, width, height, skin, hover, tooltip, pricing, key, callback, scene) {
-        let but = scene.add.rectangle(x, y, width, height, 0x66666666);
-        let hov = scene.add.rectangle(x, y, height, height, 0x66660000);
-        let dis = scene.add.rectangle(x, y, height, height, 0x66333333);
+    constructor(x, y, width, height, icon, tooltip, pricing, callback, scene) {
+        let but = scene.add.image(x, y, 'item_button');
+        let hov = scene.add.image(x, y, 'item_button_hover');
+        let dis = scene.add.image(x, y, 'item_button_disabled');
+        
         let text = scene.add.text(x, y, 'Cost', {
             fontFamily: 'Arial',
             fixedWidth: width,
@@ -20,14 +20,21 @@ export default class ItemButton extends Button {
         
         this.pricing = pricing;
         this.tooltip = tooltip;
-        this.text.text = this.pricing(STATE.upgrades[key]);
-        this.text.y += 40;
+        this.text.text = pricing;
+        this.text.y += 50;
         this.text.scaleX = 0.6;
         this.text.scaleY = 0.6;
-        this.key = key;
+        this.icon = this.scene.add.image(x, y, icon);
+        this.icon.scale = 2;
     }
 
-    update() {
-        this.text.text = this.pricing(STATE.upgrades[this.key]);
+    hide() {
+        this.icon.visible = false;
+        super.hide();
+    }
+
+    show() {
+        super.show();
+        this.icon.visible = true;
     }
 }

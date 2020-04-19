@@ -19,7 +19,7 @@ export default class Placeable extends Phaser.GameObjects.Arc {
         this.setPosition(cursor.x, cursor.y);
         this.generated.setPosition(cursor.x, cursor.y);
         if (STATE.state === 'place') {
-            if (this.arena.dist(cursor.x, cursor.y) < 800 - 2 * this.generated.placeradius && !this.scene.physics.world.overlap(this, this.arena.gladiators)) {
+            if (this.arena.dist(cursor.x, cursor.y) < this.arena.boundsWidth - this.generated.placeradius && !this.scene.physics.world.overlap(this, this.arena.gladiators)) {
                 this.setFillStyle(0x006600, 0.5);
             } else {
                 this.setFillStyle(0x660000, 0.5);
@@ -29,15 +29,8 @@ export default class Placeable extends Phaser.GameObjects.Arc {
 
     handleMouseClick(cursor) {
         if (STATE.state === 'place') {
-            if (this.arena.dist(cursor.x, cursor.y) < 800 - 2 * this.generated.placeradius && !this.scene.physics.world.overlap(this, this.arena.gladiators)) {
-                this.scene.upgrade1.show();
-                this.scene.upgrade2.show();
-                this.scene.upgrade3.show();
-                this.scene.place1.show();
-                this.scene.place2.show();
-                this.scene.place3.show();
+            if (this.arena.dist(cursor.x, cursor.y) < this.arena.boundsWidth - this.generated.placeradius && !this.scene.physics.world.overlap(this, this.arena.gladiators)) {
                 STATE.setState('upgrade');
-                this.scene.mainBtn.text.text = 'Arena';
                 STATE.addtoArena(this.generator, [cursor.x, cursor.y]);
                 STATE.removeGold(this.generated.pricing(STATE.upgrades[this.generated.key]));
                 STATE.upgrades[this.generated.key] += 1;

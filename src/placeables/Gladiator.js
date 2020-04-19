@@ -20,7 +20,7 @@ export default class Gladiator extends Phaser.GameObjects.Image {
         this.body.setDrag(0.98, 0.98);
         this.body.useDamping = true;
         this.body.setCircle(16, 0, 0);
-        this.body.setMass(100);
+        this.body.setMass(10);
         this.body.setAllowRotation();
         this.body.setAngularDrag(50);
     }

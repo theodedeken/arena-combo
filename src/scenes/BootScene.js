@@ -15,6 +15,19 @@ class BootScene extends Phaser.Scene {
         this.load.image('gladiator', 'assets/sprites/gladiator.svg');
         this.load.image('pointer', 'assets/sprites/arrow.svg');
 
+        this.load.image('coin', 'assets/sprites/coin.svg');
+        this.load.image('item_button', 'assets/sprites/item_button.svg');
+        this.load.image('item_button_hover', 'assets/sprites/item_button_hover.svg');
+        this.load.image('item_button_disabled', 'assets/sprites/item_button_disabled.svg');
+
+        this.load.image('button', 'assets/sprites/button.svg');
+        this.load.image('button_hover', 'assets/sprites/button_hover.svg');
+
+        this.load.image('arena', 'assets/sprites/arena.svg');
+        this.load.image('background', 'assets/sprites/background.svg');
+        this.load.image('ui_corner', 'assets/sprites/corner_ui.svg');
+        this.load.image('cooldown_border', 'assets/sprites/cooldown_border.svg');
+
         STATE.addtoArena(gladiatorGenerator, [this.sys.game.config.width / 2, 400]);
         STATE.addtoArena(gladiatorGenerator, [this.sys.game.config.width / 2 - 30, 445]);
         STATE.addtoArena(gladiatorGenerator, [this.sys.game.config.width / 2 + 30, 445]);
@@ -43,8 +56,8 @@ class BootScene extends Phaser.Scene {
         let upgy = 700;
         let upgw = 200;
         let upgh = 50;
-        let but = this.add.rectangle(upgx, upgy, upgw, upgh, 0x666666);
-        let hov = this.add.rectangle(upgx, upgy, upgw, upgh, 0x660000);
+        let but = this.add.image(upgx, upgy, 'button');
+        let hov = this.add.image(upgx, upgy, 'button_hover');
         let text = this.add.text(upgx - upgw / 2, upgy - upgh / 4, 'Start Game', {
             fontFamily: 'Arial',
             fixedWidth: 200,
