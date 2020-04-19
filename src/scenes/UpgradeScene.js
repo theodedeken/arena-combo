@@ -1,4 +1,6 @@
 import Button from '../ui/Button';
+import PlaceableItemButton from '../ui/PlaceableItemButton';
+import UpgradeableItemButton from '../ui/UpgradeableItemButton';
 import STATE from '../State';
 
 export default class UpgradeScene extends Phaser.Scene {
@@ -18,6 +20,7 @@ export default class UpgradeScene extends Phaser.Scene {
         this.initButtons();
     }
     initButtons() {
+        this.buttons = [];
         let upgx = 150;
         let upgy = 750;
         let upgw = 200;
@@ -33,6 +36,21 @@ export default class UpgradeScene extends Phaser.Scene {
         });
 
         this.mainBtn = new Button(upgx, upgy, upgw, upgh, but, hov, null, text, this.handleButton, this);
+        this.buttons.push(this.mainBtn);
+
+        this.upgrade1 = new UpgradeableItemButton(400, 200, 100, 100, null, null, 'test', 100, 10, () => console.log('upgrade 1'), this);
+        this.upgrade2 = new UpgradeableItemButton(640, 200, 100, 100, null, null, 'test', 100, 10, () => console.log('upgrade 2'), this);
+        this.upgrade3 = new UpgradeableItemButton(880, 200, 100, 100, null, null, 'test', 100, 10, () => console.log('upgrade 3'), this);
+        this.buttons.push(this.upgrade1);
+        this.buttons.push(this.upgrade2);
+        this.buttons.push(this.upgrade3);
+
+        this.place1 = new PlaceableItemButton(400, 500, 100, 100, null, null, 'test', 100, null, () => console.log('place 1'), this);
+        this.place2 = new PlaceableItemButton(640, 500, 100, 100, null, null, 'test', 100, null, () => console.log('place 2'), this);
+        this.place3 = new PlaceableItemButton(880, 500, 100, 100, null, null, 'test', 100, null, () => console.log('place 3'), this);
+        this.buttons.push(this.place1);
+        this.buttons.push(this.place2);
+        this.buttons.push(this.place3);
     }
 
     handleButton() {
@@ -49,11 +67,11 @@ export default class UpgradeScene extends Phaser.Scene {
     }
 
     handleMouseClick(cursor) {
-        this.mainBtn.handleMouseClick(cursor);
+        this.buttons.forEach(btn => btn.handleMouseClick(cursor));
     }
 
     handleMouseMove(cursor) {
-        this.mainBtn.handleMouseMove(cursor);
+        this.buttons.forEach(btn => btn.handleMouseMove(cursor));
     }
 
     update() {

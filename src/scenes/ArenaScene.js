@@ -2,7 +2,6 @@
 import Arena from '../objects/Arena';
 import STATE from '../State';
 import Button from '../ui/Button';
-import Checkbox from '../ui/Checkbox';
 
 class ArenaScene extends Phaser.Scene {
     constructor(test) {
