@@ -53,16 +53,16 @@ export default class UpgradeScene extends Phaser.Scene {
         this.mainBtn = new Button(upgx, upgy, upgw, upgh, but, hov, {}, text, this.handleButton, this);
         this.buttons.push(this.mainBtn);
 
-        this.upgrade1 = new UpgradeableItemButton(400, 200, 100, 100, null, null, 'test', 100, 10, () => console.log('upgrade 1'), this);
-        this.upgrade2 = new UpgradeableItemButton(640, 200, 100, 100, null, null, 'test', 100, 10, () => console.log('upgrade 2'), this);
-        this.upgrade3 = new UpgradeableItemButton(880, 200, 100, 100, null, null, 'test', 100, 10, () => console.log('upgrade 3'), this);
+        this.upgrade1 = new UpgradeableItemButton(400, 200, 100, 100, null, null, 'test', gladiatorpricing, 10, 'swing', () => console.log('upgrade 1'), this);
+        this.upgrade2 = new UpgradeableItemButton(640, 200, 100, 100, null, null, 'test', gladiatorpricing, 10, 'bounce', () => console.log('upgrade 2'), this);
+        this.upgrade3 = new UpgradeableItemButton(880, 200, 100, 100, null, null, 'test', gladiatorpricing, 10, 'health', () => console.log('upgrade 3'), this);
         this.buttons.push(this.upgrade1);
         this.buttons.push(this.upgrade2);
         this.buttons.push(this.upgrade3);
 
-        this.place1 = new PlaceableItemButton(400, 500, 100, 100, 'gladiator', null, 'test', gladiatorpricing, gladiatorGenerator, this.handlePlaceGladiator, this);
-        this.place2 = new PlaceableItemButton(640, 500, 100, 100, null, null, 'test', 100, null, () => console.log('place 2'), this);
-        this.place3 = new PlaceableItemButton(880, 500, 100, 100, null, null, 'test', 100, null, () => console.log('place 3'), this);
+        this.place1 = new PlaceableItemButton(400, 500, 100, 100, 'gladiator', null, 'test', gladiatorpricing, gladiatorGenerator, 'gladiator', this.handlePlaceGladiator, this);
+        this.place2 = new PlaceableItemButton(640, 500, 100, 100, null, null, 'test', gladiatorpricing, null, 'oil', () => console.log('place 2'), this);
+        this.place3 = new PlaceableItemButton(880, 500, 100, 100, null, null, 'test', gladiatorpricing, null, 'pillar', () => console.log('place 3'), this);
         this.buttons.push(this.place1);
         this.buttons.push(this.place2);
         this.buttons.push(this.place3);
@@ -116,7 +116,13 @@ export default class UpgradeScene extends Phaser.Scene {
 
     }
 
-    resetArena() {
+    justPlaced() {
+        this.upgrade1.update();
+        this.upgrade2.update();
+        this.upgrade3.update();
+        this.place1.update();
+        this.place2.update();
+        this.place3.update();
         this.arena.reset();
         this.fillArena();
     }

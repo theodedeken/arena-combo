@@ -7,6 +7,14 @@ class _State {
         this.state = 'boot';
         this.multiplier = 10;
         this.arenaState = [];
+        this.upgrades = {
+            gladiator: 1,
+            pillar: 1,
+            oil: 1,
+            swing: 1,
+            health: 1,
+            bounce: 1
+        };
     }
 
     addtoArena(generator, args) {

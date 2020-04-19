@@ -39,7 +39,9 @@ export default class Placeable extends Phaser.GameObjects.Arc {
                 STATE.setState('upgrade');
                 this.scene.mainBtn.text.text = 'Arena';
                 STATE.addtoArena(this.generator, [cursor.x, cursor.y]);
-                this.scene.resetArena();
+                STATE.removeGold(this.generated.pricing(STATE.upgrades[this.generated.key]));
+                STATE.upgrades[this.generated.key] += 1;
+                this.scene.justPlaced();
                 this.destroy();
             } else {
                 console.log('outside');

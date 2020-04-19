@@ -1,3 +1,7 @@
+import {
+    gladiatorpricing
+} from '../functions';
+
 export default class Gladiator extends Phaser.GameObjects.Image {
     constructor(x, y, scene, arena) {
         super(scene, x, y, 'gladiator');
@@ -5,6 +9,8 @@ export default class Gladiator extends Phaser.GameObjects.Image {
         this.scene.physics.add.existing(this, 0);
         this.scene.add.existing(this);
         this.placeradius = 25;
+        this.key = 'gladiator';
+        this.pricing = gladiatorpricing;
     }
 
     initPhysics() {
