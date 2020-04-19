@@ -16,11 +16,11 @@ class ArenaScene extends Phaser.Scene {
 
     create() {
         this.arena = new Arena(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 640, 400, 10, this, false);
-        this.pointer = this.add.image(this.sys.game.config.width / 2, 120, 'pointer');
+        this.pointer = this.add.image(this.sys.game.config.width / 2, 160, 'pointer');
         // this.pointer = this.add.rectangle(this.sys.game.config.width / 2, 120, 10, 40, 0x000000);
         this.pointer.setOrigin(0.5, 0);
         this.pointer.scale = 0.5;
-        
+
         this.fillArena();
 
         this.input.on('pointermove', this.handleMouseMove, this);
@@ -33,10 +33,9 @@ class ArenaScene extends Phaser.Scene {
             volume: 0.1,
             loop: true
         });
-        
+
         this.crowd.play();
         this.crowd.setSeek(Phaser.Math.RND.between(0, 300));
-        console.log(this.crowd.seek);
     }
 
     initButtons() {
@@ -88,7 +87,7 @@ class ArenaScene extends Phaser.Scene {
                     // place the object if possible
                 }
             } else if (STATE.state === 'move') {
-    
+
             }
         }
     }
@@ -102,7 +101,7 @@ class ArenaScene extends Phaser.Scene {
             if (angle < 0) {
                 angle += 2 * Math.PI;
             }
-    
+
             angle = Phaser.Math.Clamp(angle, 3 * Math.PI / 4, 5 * Math.PI / 4);
             this.pointer.rotation = angle - Math.PI;
         } else if (STATE.state === 'place') {
@@ -122,7 +121,7 @@ class ArenaScene extends Phaser.Scene {
     }
 
     fillArena() {
-        this.victim = this.arena.add(gladiatorGenerator, [this.sys.game.config.width / 2, 120]);
+        this.victim = this.arena.add(gladiatorGenerator, [this.sys.game.config.width / 2, 160]);
         this.arena.setVictim(this.victim);
         STATE.arenaState.forEach(el => {
             this.arena.add(el[0], el[1]);

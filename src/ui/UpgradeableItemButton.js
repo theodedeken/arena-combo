@@ -1,22 +1,27 @@
 import ItemButton from './ItemButton';
 
 export default class UpgradeableItemButton extends ItemButton {
-    constructor(x, y, width, height, skin, hover, tooltip, pricing, maxlevel, key, callback, scene) {
-        super(x, y, width, height, skin, hover, tooltip, pricing, key, callback, scene);
+    constructor(x, y, width, height, icon, tooltip, pricing, maxlevel, callback, scene) {
+        super(x, y, width, height, icon, tooltip, pricing, callback, scene);
         this.maxlevel = maxlevel;
 
-        let text = scene.add.text(x, y, 'Level', {
+        let text = scene.add.text(x - width / 2, y - 60, 'Level', {
             fontFamily: 'Arial',
             fixedWidth: width,
-            fontSize: '20pt',
+            fontSize: '12pt',
             color: '#000000',
             align: 'center'
         });
-        text.originX = 0.5;
-        text.originY = 0.5;
-        text.y += 40;
-        text.scaleX = 0.6;
-        text.scaleY = 0.6;
         this.levelText = text;
+    }
+
+    hide() {
+        this.levelText.visible = false;
+        super.hide();
+    }
+
+    show() {
+        super.show();
+        this.levelText.visible = true;
     }
 }

@@ -5,10 +5,7 @@ export default class Arena {
         this.scene = scene;
         this.bg = this.scene.add.image(x, y, 'background');
         this.sprite = this.scene.add.image(x, y, 'arena');
-        
-        // this.stands = this.scene.add.ellipse(x, y, width + 200, height + 200, 0xedddaf);
-        // this.emperor = this.scene.add.rectangle(x, y - width / 2 + 100, 200, 75, 0x7056a3);
-        // this.ground = this.scene.add.ellipse(x, y, width, height, 0xab7f07);
+        this.emperor = this.scene.add.image(x, y - 290, 'emperor');
 
         this.boundsWidth = width - radius * 2;
         this.boundsHeight = height - radius * 2;

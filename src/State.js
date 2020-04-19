@@ -11,7 +11,7 @@ class _State {
             gladiator: 1,
             pillar: 1,
             oil: 1,
-            swing: 1,
+            strength: 1,
             health: 1,
             bounce: 1
         };

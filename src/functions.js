@@ -5,6 +5,13 @@ export function gladiatorpricing(level) {
     return raw;
 }
 
+export function multiplierpricing(level) {
+    let raw = exponential(500, level, 1.6);
+    raw = Math.round(raw);
+    raw -= raw % 10;
+    return raw;
+}
+
 function exponential(s, x, e) {
     for (let i = 1; i < x; i++) {
         s *= e;
