@@ -158,7 +158,7 @@ export default class UpgradeScene extends Phaser.Scene {
 
     handleUpgradeHealth(cursor) {
         STATE.upgrades.health += 1;
-        STATE.health *= 1.5;
+        STATE.health = Math.round(STATE.health * 1.5);
         STATE.removeGold(this.pricing);
         this.scene.uicorner.setGold(STATE.gold)
         this.scene.updateButtons();

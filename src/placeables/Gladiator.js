@@ -13,6 +13,7 @@ export default class Gladiator extends Phaser.GameObjects.Image {
         this.placeradius = 25;
         this.key = 'gladiator';
         this.pricing = gladiatorpricing;
+        this.health = STATE.health;
     }
 
     initPhysics() {
@@ -29,6 +30,14 @@ export default class Gladiator extends Phaser.GameObjects.Image {
 
     initPlacing() {
         this.body.setCircle(this.placeradius, -10, -10);
+    }
+
+    hit() {
+        this.health -= 1;
+    }
+
+    die() {
+
     }
 }
 

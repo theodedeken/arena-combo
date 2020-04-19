@@ -43,18 +43,31 @@ class BootScene extends Phaser.Scene {
 
     create() {
         this.add.rectangle(640, 400, 1180, 700, 0xeeeeee);
+        let test = `
+        Welcome to MY city!
 
-        this.explanation = this.add.text(100, 100, 'Explaining the game\ntest', {
+        I am emperor Augustus Pompeius Maximus IV. 
+        I like to hold games in MY honor.
+        I grant these gladiators a glorious death in MY Combo arena.
+        Keeping the combo alive for longer grants ME more gifts from MY audience.
+        Which I can then use to throw even bigger games by upgrading the arena.
+        To Kick off MY games I like to hurl the first gladiator into the arena from where I stand.
+        It makes for an entertaining chain reaction if you aim it right.
+        Some of these gladiators will die in the process but that is a sacrifice I am willing to make.
+        `;
+        this.explanation = this.add.text(0, 100, test, {
             fontFamily: 'Arial',
             fontSize: '20pt',
+            fixedWidth: 1180,
             color: '#000000',
-            align: 'left'
+            align: 'center'
         });
 
         this.input.on('pointermove', this.handleMouseMove, this);
         this.input.on('pointerdown', this.handleMouseClick, this);
 
-        this.add.image(600, 400, 'gladiator');
+        this.emperor = this.add.image(640, 500, 'emperor');
+        this.emperor.scale = 5;
 
         this.initButtons();
     }
@@ -66,10 +79,10 @@ class BootScene extends Phaser.Scene {
         let upgh = 50;
         let but = this.add.image(upgx, upgy, 'button');
         let hov = this.add.image(upgx, upgy, 'button_hover');
-        let text = this.add.text(upgx - upgw / 2, upgy - upgh / 4, 'Start Game', {
+        let text = this.add.text(upgx - upgw / 2, upgy - upgh / 4, 'Start the Games', {
             fontFamily: 'Arial',
             fixedWidth: 200,
-            fontSize: '20pt',
+            fontSize: '18pt',
             color: '#000000',
             align: 'center'
         });
