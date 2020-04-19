@@ -15,9 +15,9 @@ class BootScene extends Phaser.Scene {
         this.load.image('gladiator', 'assets/sprites/gladiator.svg');
         this.load.image('pointer', 'assets/sprites/arrow.svg');
 
-        STATE.addtoArena(gladiatorGenerator, [this.sys.game.config.width / 2, 400, 16]);
-        STATE.addtoArena(gladiatorGenerator, [this.sys.game.config.width / 2 - 20, 435, 16]);
-        STATE.addtoArena(gladiatorGenerator, [this.sys.game.config.width / 2 + 20, 435, 16]);
+        STATE.addtoArena(gladiatorGenerator, [this.sys.game.config.width / 2, 400]);
+        STATE.addtoArena(gladiatorGenerator, [this.sys.game.config.width / 2 - 30, 445]);
+        STATE.addtoArena(gladiatorGenerator, [this.sys.game.config.width / 2 + 30, 445]);
     }
 
     create() {
@@ -53,7 +53,7 @@ class BootScene extends Phaser.Scene {
             align: 'center'
         });
 
-        this.start = new Button(upgx, upgy, upgw, upgh, but, hov, null, text, () => { this.scene.start('ArenaScene'); STATE.setState('play'); }, this);
+        this.start = new Button(upgx, upgy, upgw, upgh, but, hov, {}, text, () => { this.scene.start('ArenaScene'); STATE.setState('play'); }, this);
     }
 
     handleMouseClick(cursor) {

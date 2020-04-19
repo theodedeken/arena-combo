@@ -14,9 +14,11 @@ class ArenaScene extends Phaser.Scene {
     }
 
     create() {
-        this.arena = new Arena(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 800, 500, 10, this);
-        this.pointer = this.add.rectangle(this.sys.game.config.width / 2, 120, 10, 40, 0x000000);
+        this.arena = new Arena(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 800, 500, 10, this, false);
+        this.pointer = this.add.image(this.sys.game.config.width / 2, 120, 'pointer');
+        // this.pointer = this.add.rectangle(this.sys.game.config.width / 2, 120, 10, 40, 0x000000);
         this.pointer.setOrigin(0.5, 0);
+        this.pointer.scale = 0.5;
 
         this.cooldown = this.add.rectangle(1000, 715, 250, 25, 0x0000aa);
         this.cooldown.setOrigin(0, 0.5);
@@ -61,7 +63,7 @@ class ArenaScene extends Phaser.Scene {
             align: 'center'
         });
 
-        this.upgradBtn = new Button(upgx, upgy, upgw, upgh, but, hov, null, text, this.handleButton, this);
+        this.upgradBtn = new Button(upgx, upgy, upgw, upgh, but, hov, {}, text, this.handleButton, this);
     }
 
     handleButton() {
@@ -127,7 +129,7 @@ class ArenaScene extends Phaser.Scene {
     }
 
     fillArena() {
-        this.victim = this.arena.add(gladiatorGenerator, [this.sys.game.config.width / 2, 120, 16]);
+        this.victim = this.arena.add(gladiatorGenerator, [this.sys.game.config.width / 2, 120]);
         this.arena.setVictim(this.victim);
         STATE.arenaState.forEach(el => {
             this.arena.add(el[0], el[1]);

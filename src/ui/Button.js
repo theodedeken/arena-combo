@@ -7,12 +7,30 @@ export default class Button {
         this.skin = skin;
         this.hover = hover;
         this.disabled = disabled;
+        this.disabled.visible = false;
         this.text = text;
         this.hoverState = false;
         this.hover.visible = this.hoverState;
         this.enabled = true;
         this.callback = callback;
         this.scene = scene;
+        this.visible = true;
+    }
+
+    hide() {
+        this.visible = false;
+        this.hover.visible = false;
+        this.skin.visible = false;
+        this.disabled.visible = false;
+        this.text.visible = false;
+    }
+
+    show() {
+        this.visible = true;
+        this.hover.visible = this.hoverState;
+        this.skin.visible = true;
+        this.disabled.visible = !this.enabled;
+        this.text.visible = true;
     }
 
     disable() {
@@ -34,7 +52,7 @@ export default class Button {
     }
 
     handleMouseMove(cursor) {
-        if (this.enabled) {
+        if (this.enabled && this.visible) {
             if (this.collides(cursor)) {
                 if (!this.hoverState) {
                     this.hoverState = true;
@@ -48,9 +66,9 @@ export default class Button {
     }
 
     handleMouseClick(cursor) {
-        if (this.enabled) {
+        if (this.enabled && this.visible) {
             if (this.collides(cursor)) {
-                this.callback();
+                this.callback(cursor);
             }
         }
     }

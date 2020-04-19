@@ -1,7 +1,7 @@
 import STATE from '../State';
 
 export default class Arena {
-    constructor(x, y, width, height, radius, scene) {
+    constructor(x, y, width, height, radius, scene, noclip) {
         this.scene = scene;
         
         this.stands = this.scene.add.ellipse(x, y, width + 200, height + 200, 0xedddaf);
@@ -16,7 +16,11 @@ export default class Arena {
         this.f1 = new Phaser.Math.Vector2(x - this.c, y);
         this.f2 = new Phaser.Math.Vector2(x + this.c, y);
         this.gladiators = this.scene.physics.add.group();
-        this.scene.physics.add.collider(this.gladiators, this.gladiators, this.gladiatorOnGladiator);
+        if (noclip) {
+            // this.scene.physics.add.overlap(this.gladiators, this.gladiators, () => this.overlap);
+        } else {
+            this.scene.physics.add.collider(this.gladiators, this.gladiators, this.gladiatorOnGladiator);
+        }
         this.waiting = true;
     }
 
@@ -26,6 +30,12 @@ export default class Arena {
         
         gladiator1.body.setAngularVelocity(Phaser.Math.RND.between(-500, 500));
         gladiator2.body.setAngularVelocity(Phaser.Math.RND.between(-500, 500));
+
+        let vel = gladiator1.body.velocity.length() + gladiator2.body.velocity.length();
+        if (vel < 20) {
+            gladiator1.body.velocity.scale(10);
+            gladiator2.body.velocity.scale(10);
+        }
     }
 
     count() {
@@ -34,7 +44,9 @@ export default class Arena {
     }
 
     add(generator, args) {
-        return generator(args, this.scene, this);
+        let generated = generator(args, this.scene, this);
+        generated.initPhysics();
+        return generated;
     }
 
     addGladiator(gladiator) {
@@ -49,6 +61,10 @@ export default class Arena {
         this.waiting = true;
         this.gladiators.children.each(el => el.destroy());
         this.gladiators.clear();
+    }
+
+    dist(x, y) {
+        return Phaser.Math.Distance.Between(this.f1.x, this.f1.y, x, y) + Phaser.Math.Distance.Between(this.f2.x, this.f2.y, x, y);
     }
 
     update() {
@@ -82,7 +98,7 @@ export default class Arena {
                     u.scale(2 * element.body.velocity.dot(u));
                         
                     element.body.velocity.subtract(u);
-                    element.body.velocity.scale(0.99);
+                    element.body.velocity.scale(0.85);
                     this.count();
                 }
             });
