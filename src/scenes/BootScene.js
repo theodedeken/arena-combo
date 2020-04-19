@@ -28,6 +28,9 @@ class BootScene extends Phaser.Scene {
         this.load.image('ui_corner', 'assets/sprites/corner_ui.svg');
         this.load.image('cooldown_border', 'assets/sprites/cooldown_border.svg');
 
+        // sounds
+        this.load.audio('crowd', 'assets/sound/crowd_bg.ogg');
+
         STATE.addtoArena(gladiatorGenerator, [this.sys.game.config.width / 2, 400]);
         STATE.addtoArena(gladiatorGenerator, [this.sys.game.config.width / 2 - 30, 445]);
         STATE.addtoArena(gladiatorGenerator, [this.sys.game.config.width / 2 + 30, 445]);

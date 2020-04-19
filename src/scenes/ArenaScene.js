@@ -29,6 +29,14 @@ class ArenaScene extends Phaser.Scene {
 
         this.initButtons();
         this.uicorner = new UICorner(this, STATE.gold);
+        this.crowd = this.sound.add('crowd', {
+            volume: 0.1,
+            loop: true
+        });
+        
+        this.crowd.play();
+        this.crowd.setSeek(Phaser.Math.RND.between(0, 300));
+        console.log(this.crowd.seek);
     }
 
     initButtons() {
@@ -58,6 +66,7 @@ class ArenaScene extends Phaser.Scene {
             STATE.setState('upgrade');
             this.scene.scene.start('UpgradeScene');
         }
+        this.scene.crowd.destroy();
     }
 
     handleSpace(event) {
@@ -104,10 +113,11 @@ class ArenaScene extends Phaser.Scene {
     update() {
         this.uicorner.setGold(STATE.gold);
         if (STATE.state === 'combo') {
-            this.uicorner.setCombo(STATE.combo);
-            this.arena.update();
             let ratio = STATE.cooldown / STATE.maxCooldown;
             this.uicorner.setCooldown(ratio);
+            this.crowd.setVolume(0.1 + ratio / 2);
+            this.uicorner.setCombo(STATE.combo);
+            this.arena.update();
         }
     }
 
