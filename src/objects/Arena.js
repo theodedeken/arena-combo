@@ -102,6 +102,11 @@ export default class Arena {
                     element.body.velocity.scale(STATE.bounce);
                     this.count();
                     element.hit();
+                    let key = Phaser.Math.RND.pick(STATE.wallhits);
+                    let sound = this.scene.sound.add(key, {
+                        volume: 0.2
+                    });
+                    sound.play();
                 }
                 if (element.health <= 0) {
                     element.die()

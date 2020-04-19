@@ -35,6 +35,8 @@ export default class UpgradeScene extends Phaser.Scene {
         this.uicorner = new UICorner(this, STATE.gold);
 
         this.initButtons();
+        this.bg = this.sound.add('shop_theme', { loop: true, volume: 0.7 })
+        this.bg.play();
     }
     initButtons() {
         this.buttons = [];
@@ -176,6 +178,7 @@ export default class UpgradeScene extends Phaser.Scene {
         if (STATE.state === 'upgrade') {
             STATE.setState('play');
             this.scene.scene.start('ArenaScene');
+            this.scene.bg.destroy();
         } else if (STATE.state === 'place') {
             STATE.setState('upgrade');
             this.text.text = 'Arena';

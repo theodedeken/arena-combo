@@ -82,6 +82,7 @@ class ArenaScene extends Phaser.Scene {
                 this.victim.body.setVelocity(-3000 * dx, -3000 * dy);
                 this.victim.body.setAngularVelocity(Phaser.Math.RND.between(-1000, 1000));
                 STATE.setState('combo');
+                this.sound.play('aargh', { volume: 0.5 });
             } else if (STATE.state === 'place') {
                 if (cursor.button === 0) {
                     // place the object if possible

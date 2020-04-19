@@ -35,6 +35,32 @@ class BootScene extends Phaser.Scene {
         this.load.image('spinner', 'assets/sprites/spinner.svg');
         // sounds
         this.load.audio('crowd', 'assets/sound/crowd_bg.ogg');
+        this.load.audio('aargh', 'assets/sound/aargh.ogg');
+        // hurts
+        this.load.audio('hurt_1', 'assets/sound/hurt_1.ogg');
+        this.load.audio('hurt_2', 'assets/sound/hurt_2.ogg');
+        this.load.audio('hurt_3', 'assets/sound/hurt_3.ogg');
+        this.load.audio('hurt_4', 'assets/sound/hurt_4.ogg');
+        this.load.audio('hurt_5', 'assets/sound/hurt_5.ogg');
+        this.load.audio('hurt_6', 'assets/sound/hurt_6.ogg');
+        this.load.audio('hurt_7', 'assets/sound/hurt_7.ogg');
+        this.load.audio('hurt_8', 'assets/sound/hurt_8.ogg');
+        // hits
+        this.load.audio('hit_wall_1', 'assets/sound/hit_wall_1.ogg');
+        this.load.audio('hit_wall_2', 'assets/sound/hit_wall_2.ogg');
+        this.load.audio('hit_wall_3', 'assets/sound/hit_wall_3.ogg');
+        this.load.audio('hit_spike_1', 'assets/sound/hit_spike_1.ogg');
+        this.load.audio('hit_spike_2', 'assets/sound/hit_spike_2.ogg');
+        this.load.audio('hit_spike_3', 'assets/sound/hit_spike_3.ogg');
+        // deaths
+        this.load.audio('death_1', 'assets/sound/death_1.ogg');
+        this.load.audio('death_2', 'assets/sound/death_2.ogg');
+        this.load.audio('death_3', 'assets/sound/death_3.ogg');
+        //music
+        this.load.audio('shop_theme', 'assets/sound/main_theme.ogg');
+
+
+
 
         STATE.addtoArena(gladiatorGenerator, [this.sys.game.config.width / 2, 400]);
         STATE.addtoArena(gladiatorGenerator, [this.sys.game.config.width / 2 - 30, 445]);

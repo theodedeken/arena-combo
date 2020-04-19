@@ -17,6 +17,31 @@ class _State {
             health: 1,
             bounce: 1
         };
+        this.hurts = [
+            'hurt_1',
+            'hurt_2',
+            'hurt_3',
+            'hurt_4',
+            'hurt_5',
+            'hurt_6',
+            'hurt_7',
+            'hurt_8',
+        ];
+        this.deaths = [
+            'death_1',
+            'death_2',
+            'death_3'
+        ];
+        this.wallhits = [
+            'hit_wall_1',
+            'hit_wall_2',
+            'hit_wall_3',
+        ];
+        this.spikehits = [
+            'hit_spike_1',
+            'hit_spike_2',
+            'hit_spike_3',
+        ]
     }
 
     addtoArena(generator, args) {
