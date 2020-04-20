@@ -104,6 +104,7 @@ export default class Arena {
                     element.hit();
                     let key = Phaser.Math.RND.pick(STATE.wallhits);
                     let sound = this.scene.sound.add(key, {
+                        mute: STATE.effect,
                         volume: 0.2
                     });
                     sound.play();

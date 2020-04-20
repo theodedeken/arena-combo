@@ -13,6 +13,7 @@ import {
 } from '../functions';
 
 import UICorner from '../objects/UICorner';
+import CheckBox from '../ui/Checkbox';
 
 export default class UpgradeScene extends Phaser.Scene {
     constructor(test) {
@@ -35,8 +36,9 @@ export default class UpgradeScene extends Phaser.Scene {
         this.uicorner = new UICorner(this, STATE.gold);
 
         this.initButtons();
-        this.bg = this.sound.add('shop_theme', { loop: true, volume: 0.7 })
+        this.bg = this.sound.add('shop_theme', { mute: STATE.music, loop: true, volume: 0.7 })
         this.bg.play();
+        this.uilock = false;
     }
     initButtons() {
         this.buttons = [];
@@ -80,6 +82,25 @@ export default class UpgradeScene extends Phaser.Scene {
         this.buttons.push(this.place3); */
 
         this.updateButtons();
+
+        this.musicbtn = new CheckBox(50, 50, 64, 64, 'music_on', 'music_off', STATE.music, this.musicToggle, this);
+        this.effectbtn = new CheckBox(150, 50, 64, 64, 'effect_on', 'effect_off', STATE.effect, this.effectToggle, this);
+        this.buttons.push(this.musicbtn)
+        this.buttons.push(this.effectbtn)
+
+    }
+
+    musicToggle() {
+        STATE.music = !STATE.music;
+        this.scene.bg.setMute(STATE.music);
+        this.flip();
+        this.scene.uilock = true;
+    }
+
+    effectToggle() {
+        STATE.effect = !STATE.effect;
+        this.flip();
+        this.scene.uilock = true;
     }
 
     updateButtons() {
@@ -191,10 +212,11 @@ export default class UpgradeScene extends Phaser.Scene {
     }
 
     handleMouseClick(cursor) {
-        if (STATE.state === 'place') {
+        if (STATE.state === 'place' && !this.uilock) {
             this.mainBtn.handleMouseClick(cursor);
             this.placing.handleMouseClick(cursor);
         } else {
+            this.uilock = false;
             this.buttons.forEach(btn => btn.handleMouseClick(cursor));
         }
     }

@@ -5,6 +5,7 @@ import {
 } from '../placeables/Gladiator';
 import STATE from '../State';
 import Button from '../ui/Button';
+import CheckBox from '../ui/Checkbox';
 import UICorner from '../objects/UICorner';
 
 class ArenaScene extends Phaser.Scene {
@@ -15,6 +16,7 @@ class ArenaScene extends Phaser.Scene {
     }
 
     create() {
+        this.uilock = false;
         this.arena = new Arena(this.sys.game.config.width / 2, this.sys.game.config.height / 2, 640, 400, 10, this, false);
         this.pointer = this.add.image(this.sys.game.config.width / 2, 160, 'pointer');
         // this.pointer = this.add.rectangle(this.sys.game.config.width / 2, 120, 10, 40, 0x000000);
@@ -30,6 +32,7 @@ class ArenaScene extends Phaser.Scene {
         this.initButtons();
         this.uicorner = new UICorner(this, STATE.gold);
         this.crowd = this.sound.add('crowd', {
+            mute: STATE.effect,
             volume: 0.1,
             loop: true
         });
@@ -54,6 +57,24 @@ class ArenaScene extends Phaser.Scene {
         });
 
         this.upgradBtn = new Button(upgx, upgy, upgw, upgh, but, hov, {}, text, this.handleButton, this);
+
+        this.musicbtn = new CheckBox(50, 50, 64, 64, 'music_on', 'music_off', STATE.music, this.musicToggle, this);
+        this.effectbtn = new CheckBox(150, 50, 64, 64, 'effect_on', 'effect_off', STATE.effect, this.effectToggle, this);
+        console.log(STATE.music, STATE.effect);
+
+    }
+
+    musicToggle() {
+        STATE.music = !STATE.music;
+        this.flip();
+        this.scene.uilock = true;
+    }
+
+    effectToggle() {
+        STATE.effect = !STATE.effect;
+        this.scene.crowd.setMute(STATE.effect);
+        this.flip();
+        this.scene.uilock = true;
     }
 
     handleButton() {
@@ -61,7 +82,9 @@ class ArenaScene extends Phaser.Scene {
             STATE.setState('upgrade');
             this.scene.scene.start('UpgradeScene');
         } else {
-            // TODO end combo 
+            STATE.addGold(STATE.combo * STATE.multiplier);
+            STATE.resetCooldown();
+            STATE.resetCombo();
             STATE.setState('upgrade');
             this.scene.scene.start('UpgradeScene');
         }
@@ -75,26 +98,26 @@ class ArenaScene extends Phaser.Scene {
     handleMouseClick(cursor) {
         if (cursor.button === 0) {
             this.upgradBtn.handleMouseClick(cursor);
-            if (STATE.state === 'play' && cursor.button === 0) {
+            this.musicbtn.handleMouseClick(cursor)
+            this.effectbtn.handleMouseClick(cursor)
+            if (STATE.state === 'play' && !this.uilock) {
                 let angle = this.pointer.rotation - Math.PI / 2;
                 let dy = Math.sin(angle);
                 let dx = Math.cos(angle);
                 this.victim.body.setVelocity(-3000 * dx, -3000 * dy);
                 this.victim.body.setAngularVelocity(Phaser.Math.RND.between(-1000, 1000));
                 STATE.setState('combo');
-                this.sound.play('aargh', { volume: 0.5 });
-            } else if (STATE.state === 'place') {
-                if (cursor.button === 0) {
-                    // place the object if possible
-                }
-            } else if (STATE.state === 'move') {
-
+                this.sound.play('aargh', { mute: STATE.effect, volume: 0.5 });
+            } else {
+                this.uilock = false;
             }
         }
     }
 
     handleMouseMove(cursor) {
         this.upgradBtn.handleMouseMove(cursor);
+        this.musicbtn.handleMouseMove(cursor)
+        this.effectbtn.handleMouseMove(cursor)
         if (STATE.state === 'play') {
             let angle = Phaser.Math.Angle.Between(this.sys.game.config.width / 2, 120, cursor.x, cursor.y);
 
@@ -118,7 +141,12 @@ class ArenaScene extends Phaser.Scene {
             this.crowd.setVolume(0.1 + ratio / 2);
             this.uicorner.setCombo(STATE.combo);
             this.arena.update();
+            this.upgradBtn.text.text = 'End Combo'
         }
+        else {
+            this.upgradBtn.text.text = 'Upgrade'
+        }
+
     }
 
     fillArena() {

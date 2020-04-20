@@ -8,6 +8,8 @@ class _State {
         this.multiplier = 10;
         this.health = 5;
         this.bounce = 0.9;
+        this.effect = false;
+        this.music = false;
         this.arenaState = [];
         this.upgrades = {
             gladiator: 1,

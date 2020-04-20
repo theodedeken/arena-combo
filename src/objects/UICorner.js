@@ -1,8 +1,10 @@
+
+
 export default class UICorner {
     constructor(scene, gold) {
         this.scene = scene;
         this.scene.add.image(1155, 700, 'ui_corner');
-       
+
         this.bar = this.scene.add.rectangle(1045, 712, 220, 40, 0x3ca3b5);
         this.bar.setOrigin(0, 0.5);
         this.scene.add.image(1155, 712, 'cooldown_border');
@@ -23,6 +25,8 @@ export default class UICorner {
             fontSize: '20pt',
             color: '#000000'
         });
+
+
     }
 
     setGold(gold) {

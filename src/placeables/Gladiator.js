@@ -37,6 +37,7 @@ export default class Gladiator extends Phaser.GameObjects.Image {
         if (this.health !== 0) {
             let key = Phaser.Math.RND.pick(STATE.hurts);
             let sound = this.scene.sound.add(key, {
+                mute: STATE.effect,
                 volume: 0.15
             });
             sound.play();
@@ -47,6 +48,7 @@ export default class Gladiator extends Phaser.GameObjects.Image {
     die() {
         let key = Phaser.Math.RND.pick(STATE.deaths);
         let sound = this.scene.sound.add(key, {
+            mute: STATE.effect,
             volume: 0.2
         });
         sound.play();
