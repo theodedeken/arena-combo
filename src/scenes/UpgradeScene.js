@@ -60,11 +60,11 @@ export default class UpgradeScene extends Phaser.Scene {
         this.buttons.push(this.mainBtn);
 
         this.gladiatorCost = gladiatorpricing(STATE.upgrades.gladiator);
-        this.placeGladiator = new ItemButton(400, 500, 128, 128, 'gladiator', 'Place a new gladiator in the arena', this.gladiatorCost, this.handlePlaceGladiator, this);
+        this.placeGladiator = new ItemButton(640, 500, 128, 128, 'gladiator', 'Place a new gladiator in the arena', this.gladiatorCost, this.handlePlaceGladiator, this);
         this.buttons.push(this.placeGladiator);
 
         this.multiplierCost = multiplierpricing(STATE.upgrades.strength);
-        this.upgradeMult = new UpgradeableItemButton(880, 300, 128, 128, 'strength', 'Doubles the Combo multiplier', this.multiplierCost, 10, this.handleUpgradeMult, this);
+        this.upgradeMult = new UpgradeableItemButton(880, 300, 128, 128, 'strength', 'Doubles the gold received per combo point', this.multiplierCost, 10, this.handleUpgradeMult, this);
         this.buttons.push(this.upgradeMult);
 
         this.healthCost = healthpricing(STATE.upgrades.health);
