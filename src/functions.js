@@ -26,6 +26,22 @@ export function bouncepricing(level) {
     return raw;
 }
 
+
+export function oilpricing(level) {
+    let raw = exponential(500, level, 1.5);
+    raw = Math.round(raw);
+    raw -= raw % 10;
+    return raw;
+}
+
+
+export function spinnerpricing(level) {
+    let raw = exponential(750, level, 2);
+    raw = Math.round(raw);
+    raw -= raw % 10;
+    return raw;
+}
+
 function exponential(s, x, e) {
     for (let i = 1; i < x; i++) {
         s *= e;
