@@ -1,7 +1,7 @@
 class _State {
     constructor() {
         this.combo = 0;
-        this.gold = 10000000;
+        this.gold = 100;
         this.cooldown = 180;
         this.maxCooldown = 180;
         this.state = 'boot';
